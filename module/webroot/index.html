@@ -1,0 +1,94 @@
+<!-- ClipSync control panel for the KernelSU module WebUI. -->
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="color-scheme" content="light dark">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+    <title>ClipSync Module</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="app.js" defer></script>
+</head>
+<body>
+    <main>
+        <header class="topbar">
+            <h1>ClipSync Module</h1>
+            <button class="icon-button" id="refresh" type="button" aria-label="刷新状态" title="刷新状态">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 7v5h-5M4 17v-5h5M6.1 7a7 7 0 0 1 11.5-1L20 9M4 15l2.4 3A7 7 0 0 0 17.9 17"/></svg>
+            </button>
+        </header>
+
+        <section class="status-card" id="status-card" aria-labelledby="status-title" aria-live="polite">
+            <div class="status-mark" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V2h6v2M9 12l2 2 4-4"/></svg>
+            </div>
+            <h2 id="status-title">读取中</h2>
+        </section>
+
+        <div class="notice" id="notice" role="alert" hidden></div>
+        <noscript><p class="notice">需要启用 JavaScript 才能使用模块控制。</p></noscript>
+
+        <section aria-labelledby="sync-heading">
+            <h2 class="section-title" id="sync-heading">同步</h2>
+            <div class="card">
+                <div class="setting-row">
+                    <div class="row-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h13l-4-4M17 17H4l4 4M20 7l-4 4M4 17l4-4"/></svg></div>
+                    <div class="row-copy"><label for="sync-toggle">剪贴板同步</label></div>
+                    <input class="switch" id="sync-toggle" type="checkbox" role="switch" disabled>
+                </div>
+                <div class="divider"></div>
+                <div class="setting-row">
+                    <div class="row-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3"/></svg></div>
+                    <div class="row-copy"><span>预共享密钥</span></div>
+                    <span class="trailing" id="psk">—</span>
+                </div>
+            </div>
+        </section>
+
+        <section aria-labelledby="peers-heading">
+            <div class="section-header">
+                <h2 class="section-title" id="peers-heading">设备</h2>
+                <div class="peer-actions"><button class="text-button" id="add-peer-toggle" type="button" disabled>添加 IP</button><button class="text-button" id="scan" type="button" disabled>扫描</button></div>
+            </div>
+            <form class="peer-form" id="peer-form" hidden>
+                <input id="peer-address" type="text" inputmode="decimal" autocomplete="off" aria-label="设备 IP" placeholder="IP 地址" required>
+                <button class="text-button" id="connect-peer" type="submit">连接</button>
+            </form>
+            <div class="card" aria-live="polite" aria-busy="false" id="peer-card">
+                <p class="empty-state" id="peer-empty">尚未扫描</p>
+                <div id="peers" hidden></div>
+            </div>
+        </section>
+
+        <section aria-labelledby="network-heading">
+            <h2 class="section-title" id="network-heading">网络</h2>
+            <div class="card">
+                <div class="setting-row">
+                    <div class="row-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 8a16 16 0 0 1 20 0M5 12a11 11 0 0 1 14 0M8.5 16a5.5 5.5 0 0 1 7 0"/><circle cx="12" cy="20" r=".7"/></svg></div>
+                    <div class="row-copy"><span>局域网接口</span><p id="network-detail" hidden></p></div>
+                </div>
+                <div id="interfaces" class="interfaces" hidden></div>
+                <div class="divider"></div>
+                <dl class="info-row"><dt>传输方式</dt><dd>TCP 直连</dd></dl>
+                <dl class="info-row"><dt>端口</dt><dd>47322</dd></dl>
+            </div>
+        </section>
+
+        <section aria-labelledby="module-heading">
+            <h2 class="section-title" id="module-heading">模块</h2>
+            <div class="card">
+                <dl class="info-row"><dt>版本</dt><dd id="version">—</dd></dl>
+                <dl class="info-row"><dt>设备</dt><dd id="device">—</dd></dl>
+                <dl class="info-row"><dt>Android</dt><dd id="android">—</dd></dl>
+                <dl class="info-row"><dt>守护进程 PID</dt><dd id="pid">—</dd></dl>
+                <div class="divider full"></div>
+                <div class="setting-row appearance-row">
+                    <label for="theme">外观</label>
+                    <select id="theme"><option value="auto">跟随系统</option><option value="light">浅色</option><option value="dark">深色</option></select>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

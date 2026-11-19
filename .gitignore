@@ -1,0 +1,8 @@
+build/
+*.zip
+*.dex
+*.log
+.idea/
+.vs/
+.cache/
+compile_commands.json
